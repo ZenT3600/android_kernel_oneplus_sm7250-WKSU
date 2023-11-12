@@ -11335,7 +11335,7 @@ err_task:
 err_group_fd:
 	if (group_leader)
 		mutex_unlock(&group_leader->group_leader_mutex);
-	fput_light(group_file, fput_needed);
+	fdput(group);
 err_fd:
 	put_unused_fd(event_fd);
 	return err;
