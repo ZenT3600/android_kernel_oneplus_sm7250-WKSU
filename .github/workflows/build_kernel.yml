@@ -1,30 +1,70 @@
-name: NeverSettle Kernel Compiler
+name: PSM-Kernel-Build
+
 on:
-  workflow_dispatch:
-      inputs:
-         Changelog:
-             description: 'Build Changelog'
-             required: true
-             default: '* No Changelog provided by the developer'
-  
+  push:
+    branches: ['*']
+  pull_request:
+      branches: ['*']
+
+defaults:
+  run:
+    shell: bash
+
 env:
-  TOKEN: ${{ secrets.TG_BOT_TOKEN }}
-  CHATID: ${{ secrets.TG_CHAT_ID }}
-  CHANGELOG: ${{ github.event.inputs.Changelog }}
+  TZ: Europe/Dublin
+  TOKEN: ${{ secrets.TOKEN }}
+  CHATID: ${{ secrets.CHATID }}
+  FORUMID: ${{ secrets.TOPICID}}
+  CHANGELOG: '* No Changelog provided by the developer'
+
 jobs:
-  NSK_CI:
-    runs-on: ubuntu-22.04
+  PSM_kernel_CI:
+    runs-on: ubuntu-latest
+    container:
+      image: panchajanya1999/archlinux:latest
+
     steps:
-       - name: Install packages
-         run: |
-            sudo apt-get update
-            sudo apt-get -y install mkisofs git python2 bc cpio python3 python-is-python3 device-tree-compiler
-       - name: Clone NS Kernel Source
-         run: |
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Get Version Number
+        id: version_code
+        uses: lucasfe/version_code_generator@v1.0.0
+        with:
+          offset: '-871732'
+
+      - name: Setup Environment
+        run: |
+          sudo pacman -Syu --noconfirm wget git openmp zip base-devel \
+          bc \
+          bison \
+          ccache \
+          clang \
+          cpio \
+          cmake \
+          flex \
+          git \
+          libelf \
+          lld \
+          llvm \
+          ninja \
+          openssl \
+          python3 \
+          uboot-tools
+          mkdir -p "$HOME/toolchains/neutron-clang"
+          cd "$HOME/toolchains/neutron-clang"
+          bash <(curl -s "https://raw.githubusercontent.com/Neutron-Toolchains/antman/main/antman") -S
+
+      - name: Clone PSM Kernel Source
+        run: |
             cd ~
-            git clone https://github.com/Sanju0910/android_kernel_oneplus_avicii-neversettle --recursive --depth=1 kernel
-       - name: Build NS Kernel
-         run: |
+            git clone https://github.com/psavarmattas/android_kernel_oneplus_sm7250-WKSU --recursive --depth=1 kernel
+
+      - name: Build PSM Kernel
+        env:
+          KernelVersion: "v1.${{ steps.version_code.outputs.code }}"
+        run: |
             cd ~/kernel
             python build.py 	    
-
