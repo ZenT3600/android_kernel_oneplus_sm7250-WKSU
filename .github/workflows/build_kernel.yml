@@ -48,7 +48,7 @@ jobs:
           uboot-tools
           mkdir -p "$HOME/toolchains/neutron-clang"
           cd "$HOME/toolchains/neutron-clang"
-          bash <(curl -s "https://raw.githubusercontent.com/Neutron-Toolchains/antman/main/antman") -S
+          bash <(curl -s "https://raw.githubusercontent.com/Neutron-Toolchains/antman/main/antman") -S=11032023
 
       - name: Clone PSM Kernel Source
         run: |
