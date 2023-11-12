@@ -15,6 +15,7 @@ env:
   TOKEN: ${{ secrets.TOKEN }}
   CHATID: ${{ secrets.CHATID }}
   FORUMID: ${{ secrets.TOPICID}}
+  KernelVersion: ${{ secrets.KERNELVERSIONNUMBER}}
   CHANGELOG: '* No Changelog provided by the developer'
 
 jobs:
@@ -26,17 +27,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Get latest version code
-        id: version_code
-        uses: lucasfe/version_code_generator@v1.0.0
-        with:
-          offset: '-871732'
-
-      - name: Check the latest version code
-        run: echo "Version code generated -> v1.${{ steps.version_code.outputs.code }}"
 
       - name: Setup Environment
         run: |
@@ -66,8 +56,6 @@ jobs:
             git clone https://github.com/psavarmattas/android_kernel_oneplus_sm7250-WKSU --recursive --depth=1 kernel
 
       - name: Build PSM Kernel
-        env:
-          KernelVersion: "v1. ${{ steps.version_code.outputs.code }}"
         run: |
             cd ~/kernel
             python build.py 	    
