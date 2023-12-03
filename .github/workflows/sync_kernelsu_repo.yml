@@ -2,7 +2,7 @@ name: Push latest KernelSU Source
 on:
   workflow_dispatch:
   schedule:
-     - cron: '16 * * * *'
+     - cron: '0 6 * * *'
 
 jobs:
   build:
