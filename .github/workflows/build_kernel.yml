@@ -26,6 +26,7 @@ jobs:
 
       - name: Setup Environment
         run: |
+          sudo pacman -Syu --noconfirm archlinux-keyring
           sudo pacman -Syu --noconfirm wget git openmp zip base-devel \
           bc \
           bison \
