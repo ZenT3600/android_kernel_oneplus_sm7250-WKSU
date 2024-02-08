@@ -28,6 +28,7 @@ jobs:
           bison \
           ccache \
           clang \
+          glibc-source \
           cpio \
           cmake \
           flex \
