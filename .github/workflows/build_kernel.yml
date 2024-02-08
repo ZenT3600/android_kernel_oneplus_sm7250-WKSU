@@ -32,13 +32,13 @@ jobs:
           cmake \
           flex \
           git \
-          libelf \
+          libelf-dev \
           lld \
           llvm \
-          ninja \
+          ninja-build \
           openssl \
           python3 \
-          uboot-tools
+          u-boot-tools
           mkdir -p "$HOME/toolchains/neutron-clang"
           cd "$HOME/toolchains/neutron-clang"
           bash <(curl -s "https://raw.githubusercontent.com/Neutron-Toolchains/antman/main/antman") -S=11032023
