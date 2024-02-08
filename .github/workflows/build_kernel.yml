@@ -1,11 +1,6 @@
 name: PSM-Kernel-Build
 
 on: workflow_dispatch
-on:
-  push:
-    branches: ['*']
-  pull_request:
-      branches: ['*']
 
 defaults:
   run:
