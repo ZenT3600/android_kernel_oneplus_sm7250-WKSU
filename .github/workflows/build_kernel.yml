@@ -24,6 +24,7 @@ jobs:
 
       - name: Setup Environment
         run: |
+          sudo apt-get -y update
           sudo apt-get -y install bc \
           bison \
           ccache \
@@ -39,8 +40,8 @@ jobs:
           ninja-build \
           openssl \
           python3 \
-          u-boot-tools
-          wget http://ftp.gnu.org/gnu/libc/glibc-2.36.tar.gz && tar -xvf glibc-2.36.tar.gz && cd glibc-2.36 && mkdir build && mkdir glibc-2.36-install && cd build && ~/glibc/glibc-2.36/configure --prefix=$HOME/glibc/glibc-2.36-install && make -j && make install
+          u-boot-tools \
+          libc6
           mkdir -p "$HOME/toolchains/neutron-clang"
           cd "$HOME/toolchains/neutron-clang"
           bash <(curl -s "https://raw.githubusercontent.com/Neutron-Toolchains/antman/main/antman") -S=11032023
